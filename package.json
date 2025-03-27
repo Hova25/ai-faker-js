@@ -1,21 +1,29 @@
 {
   "name": "ai-faker-js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Ai faker js is an faker object generator with ai",
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "clean": "rm -rf dist",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "keywords": [
-    "ai"
+    "ai",
+    "faker",
+    "mock"
   ],
   "author": "Hova25",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hova25/ai-faker-js"
+  },
+  "files": ["dist"],
   "devDependencies": {
     "tsup": "^8.4.0",
     "typescript": "^5.8.2"
