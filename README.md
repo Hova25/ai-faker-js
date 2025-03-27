@@ -11,13 +11,13 @@ Generate structured fake data using AI (GPT-4) effortlessly!
 
 ## 📦 Installation
 ```sh
-npm install faker-ai-js
+npm install ai-faker-js
 ```
 
 or
 
 ```sh
-yarn add faker-ai-js
+yarn add ai-faker-js
 ```
 
 ---
@@ -25,11 +25,11 @@ yarn add faker-ai-js
 ## 🛠️ Usage
 ### 1️⃣ **Initialize the Library**
 ```ts
-import { init, generate } from "faker-ai-js";
+import { init, generate } from "ai-faker-js";
 
 init({
-  apiKey: "sk-xxxx",  // Your OpenAI API key
-  model: "gpt-4",     // AI model to use
+  apiKey: "gsk_ai0x...",  // Your Groq API key
+  model: "llama-3.3-70b-versatile",     // AI model to use
   language: "en"      // Default language ("en", "fr", "es", "de", etc.)
 });
 ```
