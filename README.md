@@ -1,6 +1,7 @@
-# FakerAI.js 🧠🤖
-Generate structured fake data using AI (GPT-4) effortlessly!
+# AIFaker.js 🧠🤖
+Generate structured fake data using AI (https://console.groq.com/) effortlessly!
 
+This package has initilized with vibe coding in 30 minutes
 ## 🚀 Features
 - **Schema-based generation**: Define precise JSON structures.
 - **AI-powered data**: Uses OpenAI's models to generate realistic fake data.
@@ -28,7 +29,7 @@ yarn add ai-faker-js
 import { init, generate } from "ai-faker-js";
 
 init({
-  apiKey: "gsk_ai0x...",  // Your Groq API key
+  apiKey: "gsk_ai0x...",  // Your Groq API key (https://console.groq.com/)
   model: "llama-3.3-70b-versatile",     // AI model to use
   language: "en"      // Default language ("en", "fr", "es", "de", etc.)
 });
@@ -155,7 +156,7 @@ console.log(fakeUser);
 
 ---
 
-## 💡 Why Use FakerAI.js?
+## 💡 Why Use AIFaker.js?
 ✅ No more manually creating fake data 🚀  
 ✅ Ensures realistic and structured outputs 🧠  
 ✅ Fully customizable with AI-powered generation 🤖

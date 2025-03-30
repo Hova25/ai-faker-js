@@ -23,9 +23,13 @@
     "type": "git",
     "url": "https://github.com/Hova25/ai-faker-js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
+    "@types/node": "^22.13.14",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "dotenv": "^16.4.7"
   }
 }

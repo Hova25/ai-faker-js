@@ -1,19 +1,24 @@
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+
 import {FakerAiOptions, GenerateOptions} from "./types";
-import { SchemaType } from "./schema";
+import {schemaToTypeScript, SchemaType} from "./schema";
 
 class FakerAiClient {
   private readonly apiKey: string;
-  private model: FakerAiOptions["model"];
+  private readonly model: FakerAiOptions["model"];
   private readonly language: FakerAiOptions["language"];
   private readonly logMode?: FakerAiOptions["logMode"];
   private readonly maxCompletionTokens?: FakerAiOptions["maxCompletionTokens"];
+  private readonly exportPath?: FakerAiOptions["exportPath"];
 
   constructor(options: FakerAiOptions) {
     this.apiKey = options.apiKey;
     this.model = options.model;
-    this.language = options.language ?? "fr";
+    this.language = options.language ?? "en";
     this.logMode = options.logMode
     this.maxCompletionTokens = options.maxCompletionTokens ?? 8_192
+    this.exportPath = options.exportPath
   }
 
   private formatSchema(schema: SchemaType, depth = 0): string {
@@ -41,6 +46,28 @@ class FakerAiClient {
     return "";
   }
 
+  private writeResponseToFile(response: any, schema?: SchemaType) {
+    if (this.exportPath) {
+      try {
+        let fileContent = ""
+
+        if(schema) {
+          const typeScriptType = schemaToTypeScript(schema);
+          if(schema && typeScriptType) {
+            fileContent += `type Data = ${typeScriptType};\n\n`
+          }
+        }
+        fileContent += `const data: Data = ${response};`;
+
+        mkdirSync(dirname(this.exportPath), { recursive: true });
+
+        writeFileSync(`${this.exportPath}.ts`, fileContent);
+      } catch (error) {
+        console.error("Error when create file", error);
+      }
+    }
+  }
+
   async generate(options: GenerateOptions): Promise<any> {
     const { prompt, schema } = options;
 
@@ -49,7 +76,7 @@ class FakerAiClient {
       fullPrompt += `\nStrictly respect this JSON format:\n${this.formatSchema(schema)}`;
     }
 
-    const systemMessage = `You are a strict JSON data generator.
+    const systemMessage = `You are a strict JSON data generator. \n
     Respond only in JSON and use the specified language. : ${this.language!.toUpperCase()}.`;
 
     if(this.logMode === "debug") {
@@ -91,11 +118,19 @@ class FakerAiClient {
 
     try {
       if(this.logMode === "debug") {
-        console.log("API Return --", data.choices[0].message.content)
+        console.log("API return ", data)
+        console.log("API Return message content", data.choices[0].message.content)
       }
-      return JSON.parse(data.choices[0].message.content);
+      const aiResponse = data.choices[0].message.content
+      if(this.exportPath) {
+        this.writeResponseToFile(aiResponse, schema);
+      }
+      return aiResponse;
     } catch(e) {
-      throw new Error("IA response is invalid JSON");
+      if(this.logMode === "debug") {
+        console.log("Error", e)
+      }
+      throw new Error("An error has occured");
     }
   }
 }

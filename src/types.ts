@@ -6,6 +6,7 @@ export interface FakerAiOptions {
   language?: "fr" | "en" | "es" | "de";
   logMode?: "debug"
   maxCompletionTokens?: number
+  exportPath?: string
 }
 
 export interface GenerateOptions {
