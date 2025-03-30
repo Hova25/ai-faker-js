@@ -2,16 +2,18 @@ import {FakerAiOptions, GenerateOptions} from "./types";
 import { SchemaType } from "./schema";
 
 class FakerAiClient {
-  private apiKey: string;
-  private model: string;
-  private language: string;
-  private logMode?: FakerAiOptions["logMode"];
+  private readonly apiKey: string;
+  private model: FakerAiOptions["model"];
+  private readonly language: FakerAiOptions["language"];
+  private readonly logMode?: FakerAiOptions["logMode"];
+  private readonly maxCompletionTokens?: FakerAiOptions["maxCompletionTokens"];
 
   constructor(options: FakerAiOptions) {
     this.apiKey = options.apiKey;
     this.model = options.model;
     this.language = options.language ?? "fr";
     this.logMode = options.logMode
+    this.maxCompletionTokens = options.maxCompletionTokens ?? 8_192
   }
 
   private formatSchema(schema: SchemaType, depth = 0): string {
@@ -48,7 +50,7 @@ class FakerAiClient {
     }
 
     const systemMessage = `You are a strict JSON data generator.
-    Respond only in JSON and use the specified language. : ${this.language.toUpperCase()}.`;
+    Respond only in JSON and use the specified language. : ${this.language!.toUpperCase()}.`;
 
     if(this.logMode === "debug") {
       console.log(fullPrompt)
@@ -69,12 +71,13 @@ class FakerAiClient {
       ],
       model: this.model,
       temperature: 1,
-      max_completion_tokens: 1024,
+      max_completion_tokens: this.maxCompletionTokens,
       top_p: 1,
       stream: false,
       stop: null,
       response_format: { type: "json_object" },
     };
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
