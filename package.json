@@ -1,6 +1,6 @@
 {
   "name": "ai-faker-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ai faker js is an faker object generator with ai",
   "scripts": {
     "build": "tsup",

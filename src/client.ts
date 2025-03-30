@@ -73,7 +73,7 @@ class FakerAiClient {
 
     let fullPrompt = prompt;
     if (schema) {
-      fullPrompt += `\nStrictly respect this JSON format:\n${this.formatSchema(schema)}`;
+      fullPrompt += `\nStrictly respect this JSON format:\n${this.formatSchema(schema)} i want just you respect this schema nothing more`;
     }
 
     const systemMessage = `You are a strict JSON data generator. \n
